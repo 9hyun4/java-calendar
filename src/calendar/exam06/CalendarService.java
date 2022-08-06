@@ -10,30 +10,33 @@ import java.util.*;
 //프롬프트를 출력한다.
 
 public class CalendarService {
-	private final static String PROMPT = "cal> ";
-	
 	public void runPrompt() {
 		Calendar cal = new Calendar();
 		Scanner scanner = new Scanner(System.in);
-		int Month = 0;
+		int month;
+		int year;
 		
 		while(true) {
+			System.out.println("연도를 입력하세요.");
+			System.out.print("YEAR: ");
+			String str1 = scanner.nextLine();
 			System.out.println("월을 입력하세요.");
-			System.out.print(PROMPT);
-			String str = scanner.nextLine();
-			if(str.equals("")) {
+			System.out.print("MONTH: ");
+			String str2 = scanner.nextLine();
+			
+			if(str1.equals("") || str2.equals("") ) {
 				System.out.println("값을 입력해주세요.\n");
 				continue;
 			}
-			Month = Integer.parseInt(str);
-			if(Month == -1) {
+			year = Integer.parseInt(str1);
+			month = Integer.parseInt(str2);
+			if(month == -1) {
 				break;
-			} else if (Month<1 || Month>12) {
+			} else if (month<1 || month>12) {
 					System.out.println("The value entered is a month that does not exist.\n");
 					continue;
 			}
-			int MAX_DAYS = cal.getMaxdayOfMonth(Month);
-			cal.printMonth(MAX_DAYS);
+			cal.printMonth(year, month);
 		}
 		System.out.println("Have a nice day!");
 		scanner.close();
