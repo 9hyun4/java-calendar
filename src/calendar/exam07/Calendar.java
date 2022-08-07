@@ -6,7 +6,7 @@ public class Calendar {
 	public final int[] LEAP_MAX_DAYS = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	public boolean isLeapYear(int year) {
-		if(year%4==0 && (!(year%4==0 && year%100==0) || (year%4==0 && year%100==0 && year%400==0))) {
+		if(year%4==0 && year%100!=0 || year%400==0) {
 			return true;
 		}
 		return false;
@@ -47,8 +47,6 @@ public class Calendar {
 		 * @return 0 ~ 6 (0 = Sunday, 6 = Saturday)
 		 * 
 		 */
-		
-		
 		int startWeek = getWeek(week);
 		
 		int count = 0;

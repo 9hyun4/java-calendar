@@ -1,13 +1,10 @@
-package calendar.exam07;
+package calendar.exam08;
 
 import java.util.*;
 
-//요구사항
-//월을 입력하면 해당월의 달력을 출력한다.
-//달력은 모양은 1단계에서 작성한 모양으로 만든다.
-//1일은 일요일로 정해도 무방하다.
-//-1을 입력받기 전까지 반복 입력받는다.
-//프롬프트를 출력한다.
+//년도와 월만 입력받는다.
+//진짜 캘린더에서 나오는 달력과 똑같은 모양의 달력을 출력한다.
+//추가적으로 입력받아야 하는 내용이 있는지 생각해 보자.
 
 public class CalendarService {
 	public void runPrompt() {
@@ -15,7 +12,6 @@ public class CalendarService {
 		Scanner scanner = new Scanner(System.in);
 		int month;
 		int year;
-		String week;
 		
 		while(true) {
 			//year변수 버그 체크
@@ -29,7 +25,7 @@ public class CalendarService {
 				year = Integer.parseInt(strYear);
 				if (year == -1) {
 					break;
-				} else if (year < 1 || year > 9999) {
+				} else if (year < 1899 || year > 9999) {
 					System.out.println("The value entered is a year that does not exist.\n");
 					continue;
 				}
@@ -40,7 +36,7 @@ public class CalendarService {
 			System.out.print("MONTH: ");
 			String strMonth = scanner.nextLine();
 			if (strMonth.equals("")) {
-				System.err.println("The value entered is a month that does not exist.\n");
+				System.out.println("The value entered is a month that does not exist.\n");
 				continue;
 			} else {
 				month = Integer.parseInt(strMonth);
@@ -52,17 +48,8 @@ public class CalendarService {
 				}
 			}
 			
-			//week변수 버그체크
-			System.out.println("첫번째 요일을 입력하세요. (SU, MO, TU, WE, TH, FR, SA / exit: Q)");
-			System.out.print("WEEK: ");
-			week = scanner.nextLine();
-			if(cal.getWeek(week)==-1) {
-				break;
-			} else if (cal.getWeek(week)==-2) {
-				System.out.println("The value entered is a week that does not exist.\n");
-				continue;
-			}
-			cal.printCalendar(year, month, week);
+			cal.printCalendar(year, month);
+			
 		}
 		System.out.println("Have a nice day!");
 		scanner.close();
