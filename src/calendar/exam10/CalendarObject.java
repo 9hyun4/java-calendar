@@ -1,8 +1,47 @@
-package calendar.exam09;
+package calendar.exam10;
 
+import java.text.*;
 import java.util.*;
 
 public class CalendarObject {
+	
+	public void checkSchedule(int year, int month) {
+		List<String> list = new ArrayList<>();
+		
+		String y = String.valueOf(year);
+		String m = String.valueOf(month);
+		if(m.length()==1) m = "0" + month;
+		
+		String date = y+m;
+		
+		Set<Schedule> set = CalendarService.getS();
+		Iterator<Schedule> iterator = set.iterator();
+		while(iterator.hasNext()) {
+			Schedule schedule = iterator.next();
+			String str = schedule.getDate();
+			if(str.contains(date)) {
+				try {
+					SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd");
+					SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd");
+					Date to = sdf1.parse(str);
+					String s = sdf2.format(to);
+					list.add(s);
+					
+				} catch (Exception e) {
+					e.getMessage();
+				}
+			}
+		}
+		
+		System.out.println(list.size() + "개의 일정이 있습니다.");
+		for(int i=0; i<list.size(); i++) {
+			if(i==list.size()-1) {
+				System.out.println(list.get(i) + "\n");	
+			} else {
+				System.out.print(list.get(i) + ", ");
+			}
+		}
+	}
 	
 	public void printCalendar(int year, int month) {
 		System.out.printf("    <<%d년%2d월>>\n", year, month);
@@ -22,14 +61,22 @@ public class CalendarObject {
 		
 		//시작하는 요일부터 마지막일까지 출력을 한다.
 		for(int i=1, n=StartdayOfMontn; i<=lastDayOfMonth; i++, n++) { 
-			System.out.printf("%3d", i);    
+			System.out.printf("%3d", i);   
+			if(i==lastDayOfMonth && n%7==0) {
+				break;
+			}
+			
 			if(n%7==0) {//7일째 되는 날마다 개행을 한다.)
 				System.out.println();
 			}
 		}
 		System.out.println("\n");
+		checkSchedule(year, month);
+		
+		
 	}
 	
+	@SuppressWarnings("resource")
 	public void runPrompt() {
 		Scanner scanner = new Scanner(System.in);
 		int month;
@@ -68,8 +115,6 @@ public class CalendarObject {
 			}
 			printCalendar(year, month);
 		}
-		System.out.println("Have a nice day!");
-		scanner.close();
 	}
 }
 		
