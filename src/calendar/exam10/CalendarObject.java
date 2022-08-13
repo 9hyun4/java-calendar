@@ -1,49 +1,21 @@
 package calendar.exam10;
 
-import java.text.*;
 import java.util.*;
 
 public class CalendarObject {
+	private int year;
+	private int month;
 	
-	public void checkSchedule(int year, int month) {
-		List<String> list = new ArrayList<>();
-		
-		String y = String.valueOf(year);
-		String m = String.valueOf(month);
-		if(m.length()==1) m = "0" + month;
-		
-		String date = y+m;
-		
-		Set<Schedule> set = CalendarService.getS();
-		Iterator<Schedule> iterator = set.iterator();
-		while(iterator.hasNext()) {
-			Schedule schedule = iterator.next();
-			String str = schedule.getDate();
-			if(str.contains(date)) {
-				try {
-					SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd");
-					SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd");
-					Date to = sdf1.parse(str);
-					String s = sdf2.format(to);
-					list.add(s);
-					
-				} catch (Exception e) {
-					e.getMessage();
-				}
-			}
-		}
-		
-		System.out.println(list.size() + "개의 일정이 있습니다.");
-		for(int i=0; i<list.size(); i++) {
-			if(i==list.size()-1) {
-				System.out.println(list.get(i) + "\n");	
-			} else {
-				System.out.print(list.get(i) + ", ");
-			}
-		}
+	public int getYear() {
+		return year;
+	}
+
+	public int getMonth() {
+		return month;
 	}
 	
-	public void printCalendar(int year, int month) {
+	//  setDate()에서 저장된 year, month의 멤버변수의 값을 받아 달력을 출력하는 메소드 
+	public void printCalendar() {
 		System.out.printf("    <<%d년%2d월>>\n", year, month);
 		System.out.println(" SU MO TU WE TH FR SA");
 		System.out.println("----------------------");
@@ -71,50 +43,53 @@ public class CalendarObject {
 			}
 		}
 		System.out.println("\n");
-		checkSchedule(year, month);
-		
-		
 	}
 	
+	//입력받은 year, month의 입력을 입력 조건에 맞는지 확인후 저장하는 메소드
 	@SuppressWarnings("resource")
-	public void runPrompt() {
+	public boolean setDate() {
 		Scanner scanner = new Scanner(System.in);
-		int month;
-		int year;
-		
-		while(true) {
-			//year변수 버그 체크
+		try {
+			// year변수 버그 체크
 			System.out.println("연도를 입력하세요.(exit: -1)");
 			System.out.print("YEAR: ");
 			String strYear = scanner.nextLine();
 			if (strYear.equals("")) {
 				System.out.println("The value entered is a year that does not exist.\n");
-				continue;
+				return false;
 			} else {
 				year = Integer.parseInt(strYear);
 				if (year == -1) {
-					break;
-				} 
+					return false;
+				} else if(year<1 || year>9999) {
+					System.out.println("입력 가능한 범위를 넘었습니다.");
+					return false;
+				}
 			}
-			
-			//month변수 버그체크
+
+			// month변수 버그체크
 			System.out.println("월을 입력하세요.(exit: -1)");
 			System.out.print("MONTH: ");
 			String strMonth = scanner.nextLine();
 			if (strMonth.equals("")) {
 				System.out.println("The value entered is a month that does not exist.\n");
-				continue;
+				return false;
 			} else {
 				month = Integer.parseInt(strMonth);
 				if (month == -1) {
-					break;
+					return false;
 				} else if (month < 1 || month > 12) {
 					System.out.println("The value entered is a month that does not exist.\n");
-					continue;
+					return false;
 				}
 			}
-			printCalendar(year, month);
+			return true;
+		} catch (Exception e) {
+			System.out.println("잘못된 형식을 입력했습니다.");
+			return false;
 		}
+		
+
 	}
 }
 		

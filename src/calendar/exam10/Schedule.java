@@ -1,18 +1,22 @@
 package calendar.exam10;
 
+import java.io.*;
 import java.text.*;
 import java.util.*;
 
-public class Schedule {
-	private String date;
-	private List<Content> contentList = new ArrayList<>();
+@SuppressWarnings("serial")
+public class Schedule implements Serializable{
+	private Date date;
+	private List<Content> contentList = new ArrayList<>(); //Content객체를 저장할 List<Content>타입의 필드;
 	
 	public int sizeSchedule() {
 		return contentList.size();
 	}
 	
-	public String getDate() {
-		return date;
+	public Calendar getDate() {
+		Calendar cal = Calendar.getInstance();
+		 cal.setTime(date);
+		return cal;
 	}
 
 	public boolean setDate(String date) {
@@ -20,8 +24,8 @@ public class Schedule {
 			if(date.length()!=8) return false;
 			SimpleDateFormat StringForm = new SimpleDateFormat("yyyyMMdd");
 			StringForm.setLenient(false);
-			StringForm.parse(date);
-			this.date = date;
+			Date to = StringForm.parse(date);
+			this.date = to;
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -75,4 +79,5 @@ public class Schedule {
 	public int hashCode() {
 		return date.hashCode();
 	}
+	
 }

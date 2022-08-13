@@ -3,13 +3,15 @@ package calendar.exam10;
 import java.io.*;
 import java.util.*;
 
-public class Content {
-	private List<String> content;
+@SuppressWarnings("serial")
+public class Content implements Serializable {
+	private List<String> content; //일정 내용을 저장하기위한 List<String>타입의 필드
 	
 	public List<String> getContent() {
 		return content;
 	}
 
+	//일정 내용을 저장하는 메소드
 	public void setContent() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		content = new ArrayList<>();
